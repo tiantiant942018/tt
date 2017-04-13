@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../PhpInterface/Ajax.js"></script>
+
+    <script type="text/javascript">
+         window.onload=function(){
+             document.getElementById("btn").onclick=function () {
+                 ajaxRequest("post","../PhpInterface/login.php",true,{
+                     "user":document.getElementById("text").value,
+                     "pwd":document.getElementById("pwd").value
+                 },function (data) {
+                     data=data.replace(/\s+g/,"");
+                     console.log(data)
+                     if(data!=0){
+                         alert("欢迎"+data+"登录");
+                     }
+                         else{
+                             alert("请重新登录")
+                         }
+                 })
+             }
+
+         }
+
+    </script>
+</head>
+<body>
+<p>姓名：<input type="text" id="text"></p>
+<p>密码：<input type="password" id="pwd"></p>
+<button id="btn">登录</button>
+</body>
+</html>

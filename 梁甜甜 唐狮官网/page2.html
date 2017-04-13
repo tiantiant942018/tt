@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/page2.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("header").load("head.html", function () {
+                $("nav ul li").not("nav ul li:eq(0)").mouseenter(function () {
+                    $(this).css("background", "#444");
+                });
+                $("nav ul li").not("nav ul li:eq(0)").mouseleave(function () {
+                    $(this).css("background", "");
+                });
+                $("nav ul li:eq(0)").mouseenter(function () {
+                    $("#clasify").css("display", "block");
+                });
+                $("nav ul li:eq(0)").mouseleave(function () {
+                    $("#clasify").css("display", "none");
+                });
+                $(window).scroll(function () {
+                    var _top = $(window).scrollTop();
+                    if (_top > 135) {
+                        $("nav").addClass("nav");
+                    }
+                    else {
+                        $("nav").removeClass("nav");
+                    }
+                })
+                $("#login").click(function () {
+                    $("#hidden").css("display", "block");
+                    var _titBox=document.getElementById("titBox");
+                    var _tit=_titBox.getElementsByTagName("h3");
+                    var _hideBox=document.getElementById("hideBox");
+                    var _hide=_hideBox.getElementsByTagName("div");
+                    var txt1=document.getElementById("text1");
+                    var txt2=document.getElementById("text2");
+                    var oChex=document.getElementById("radio");
+                    var pw1=document.getElementById("pwd1");
+                    var pw2=document.getElementById("pwd2");
+                    var pw3=document.getElementById("pwd2");
+                    var btn1=document.getElementById("btn1");
+                    var btn2=document.getElementById("btn2");
+                    for(var i=0;i<2;i++){
+                        _tit[i].index=i;
+                        _tit[i].onclick=function () {
+                            for(var k=0;k<2;k++){
+                                _tit[k].className="";
+                                _hide[k].className="";
+                        };
+                            _tit[this.index].className="tit";
+                            _hide[this.index].className="div1";
+                        };
+
+                    };
+                    btn1.onclick=function () {
+//                        var _val1=;
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(txt1.value)){
+                            alert("请检查您输入的账号")
+                            txt1.value="";
+                            return;
+                        };
+
+                        var _val2=pwd1.value;
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(_val2)){
+                            alert("请检查您输入的密码")
+                            pwd1.value="";
+                            return};
+                        alert("欢迎登录唐狮");
+
+                        if(document.getElementById("radio").checked)
+                        {
+                            document.cookie="user="+txt1.value+";expires="+new Date(new Date().getTime()+7*24*3600000);
+                            document.cookie="pwd="+pw1.value+";expires="+new Date(new Date().getTime()+7*24*3600000);
+                        }
+
+
+                    }
+                    btn2.onclick=function () {
+                        var _val1=txt2.value;
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(_val1)){
+                            alert("请检查您输入的账号");
+                            txt1.value="";
+                             return ;
+                        }
+
+                        var _val2=pwd2.value;
+                        var _val3=pwd3.value;
+                        if(_val2!==_val3){
+                           alert("请确认输入的密码是否一致！");
+                            return;
+                        }
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(_val2)){
+                            alert("请检查您输入的密码格式");
+                            pwd1.value="";
+                            return;}
+                        alert("唐狮欢迎您！！！");
+
+
+
+
+
+                    }
+                })
+            })
+            $("#close").click(function () {
+                $("#hidden").css("display","none");
+
+            })
+            $("#discover").mouseenter(function () {
+                $("#code").css("display", "block");
+            });
+            $("#discover").mouseleave(function () {
+                $("#code").css("display", "none");
+            });
+            $("#backTop").click(function () {
+                $(window).scrollHeight = 0;
+            })
+            function exe() {
+                var i = 0;
+                var _length = $("#box img").size();
+                $("#right").click(function () {
+                    i--;
+                    if (i == -1) {
+                        $("#box").css({left: -(_length - 1) * 1130});
+                        i = _length - 2;
+                    }
+                    ;
+                    $("#box").animate({left: -i * 1130}, 500);
+//                     $(".nav .num li").eq(i).addClass("on").siblings().removeClass("on");
+                    if (i == 1) {
+                        $("#sp2").addClass("on").siblings().removeClass("on")
+                    }
+                    else {
+                        $("#sp1").addClass("on").siblings().removeClass("on")
+                    }
+                });
+                $("#left").click(function () {
+                    i++;
+                    if (i == 3) {
+                        $("#box").css({left: 0});
+                        i = 1;
+                    }
+
+                    $("#box").animate({left: -i * 1130}, 500);
+                    if (i == 2) {
+                        $("#sp1").addClass("on").siblings().removeClass("on")
+                    }
+                    else {
+                        $("#sp2").addClass("on").siblings().removeClass("on")
+                    }
+                });
+
+
+            }
+            exe();
+            $.post("json.json", function (data) {
+                var _dl3 = "";
+                for (var k in data["h3"]) {
+                    _dl3 += "<dl><dt><a href=\"###\"><img src=\"" + data["h3"][k]["img"] + "\"/></a></dt><dd><a href=\"###\">" + data["h3"][k]["detail"] + "</a></dd><dd>" + data["h3"][k]["price"] + "<span>" + data["h3"][k]["old"] + "</span></dd></dl>";
+                };
+                document.getElementById("goods").innerHTML = _dl3;
+            });
+            $("footer").load("foot.html");
+        })
+
+
+    </script>
+</head>
+<body>
+    <header>
+
+    </header>
+    <div id="content" class="wrap">
+
+        <div class="banner">
+            <div id="box">
+                <img src="img/ban2.jpg" alt="">
+                <img src="img/ban1.jpg" alt="">
+                <img src="img/ban2.jpg" alt="">
+            </div>
+            <span id="sp1" class="on"></span>
+            <span id="sp2"></span>
+            <span id="left">&lt;</span>
+            <span id="right">&gt;</span>
+        </div>
+        <div id="goods">
+
+        </div>
+    </div>
+    <footer class="wrap">
+
+    </footer>
+    <div class="fix">
+        <a href="###"><i class="iconfont icon-liaotian"></i><span>客服</span></a>
+        <a href="###"  id="discover">
+            <i class="iconfont icon-weixin"></i>
+            <span>添加微信</span>
+            <img id="code" src="img/pic_1 (44).jpg" alt="微信">
+        </a>
+        <a id="backTop" href="#"><i class="iconfont icon-huidaodingbu"></i><span>回到顶部</span></a>
+    </div>
+    <div id="hidden">
+
+        <div class="hideBg"></div>
+
+        <div class="hide">
+            <div id="titBox" style="width: 100%;height: 30px">
+                <span id="close">X</span>
+                <h3 class="tit" id="tit1"><i class="iconfont icon-yonghu"></i>用户登录</h3>
+                <h3 id="tit2"><i class="iconfont icon-lijizhuce"></i>用户注册</h3>
+            </div>
+
+            <div id="hideBox">
+                <div id="login" class="div1">
+                    <p>账户名：<input type="text" id="text1" class="text"></p>
+                    <p>密码：<input type="password" id="pwd1"class="text" ></p>
+                    <p><input type="checkbox"  id="radio"><span>七天免登陆</span></p>
+                    <p><button id="btn1">登录</button><a href="###">忘记密码？</a></p>
+                </div>
+                <div id="rejister">
+                    <p>账户名：<input type="text" id="text2" placeholder="邮箱手机号" class="text"></p>
+                    <p class="pw2">设置密码：<input type="password" id="pwd2"  class="text"></p>
+                    <p class="pwd3">确认密码：<input type="password" id="pwd3" class="text"></p>
+                    <p><button id="btn2">注册</button></p>
+                    <p><input type="checkbox" ><span>我已接受用户协议</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

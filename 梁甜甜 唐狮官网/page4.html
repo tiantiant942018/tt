@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/page4.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("header").load("head.html", function () {
+                $("nav ul li").not("nav ul li:eq(0)").mouseenter(function () {
+                    $(this).css("background", "#444");
+                });
+                $("nav ul li").not("nav ul li:eq(0)").mouseleave(function () {
+                    $(this).css("background", "");
+                });
+                $("nav ul li:eq(0)").mouseenter(function () {
+                    $("#clasify").css("display", "block");
+                });
+                $("nav ul li:eq(0)").mouseleave(function () {
+                    $("#clasify").css("display", "none");
+                });
+                $(window).scroll(function () {
+                    var _top = $(window).scrollTop();
+                    if (_top > 135) {
+                        $("nav").addClass("nav");
+                    }
+                    else {
+                        $("nav").removeClass("nav");
+                    }
+                    if(_top>500){
+                        $(".fix").css("display","block")
+                    }
+                    else {
+                        $(".fix").css("display","none")
+                    }
+                });
+                $("#login").click(function () {
+                    $("#hidden").css("display", "block");
+                    var _titBox=document.getElementById("titBox");
+                    var _tit=_titBox.getElementsByTagName("h3");
+                    var _hideBox=document.getElementById("hideBox");
+                    var _hide=_hideBox.getElementsByTagName("div");
+                    var txt1=document.getElementById("text1");
+                    var txt2=document.getElementById("text2");
+                    var oChex=document.getElementById("radio");
+                    var pw1=document.getElementById("pwd1");
+                    var pw2=document.getElementById("pwd2");
+                    var pw3=document.getElementById("pwd2");
+                    var btn1=document.getElementById("btn1");
+                    var btn2=document.getElementById("btn2");
+                    for(var i=0;i<2;i++){
+                        _tit[i].index=i;
+                        _tit[i].onclick=function () {
+                            for(var k=0;k<2;k++){
+                                _tit[k].className="";
+                                _hide[k].className="";
+                            };
+                            _tit[this.index].className="tit";
+                            _hide[this.index].className="div1";
+                        };
+
+                    };
+                    btn1.onclick=function () {
+//                        var _val1=;
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(txt1.value)){
+                            alert("请检查您输入的账号")
+                            txt1.value="";
+                            return;
+                        };
+
+                        var _val2=pwd1.value;
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(_val2)){
+                            alert("请检查您输入的密码")
+                            pwd1.value="";
+                            return};
+                        alert("欢迎登录唐狮");
+
+                        if(document.getElementById("radio").checked)
+                        {
+                            document.cookie="user="+txt1.value+";expires="+new Date(new Date().getTime()+7*24*3600000);
+                            document.cookie="pwd="+pw1.value+";expires="+new Date(new Date().getTime()+7*24*3600000);
+                        }
+
+
+                    }
+                    btn2.onclick=function () {
+                        var _val1=txt2.value;
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(_val1)){
+                            alert("请检查您输入的账号");
+                            txt1.value="";
+                            return ;
+                        }
+
+                        var _val2=pwd2.value;
+                        var _val3=pwd3.value;
+                        if(_val2!==_val3){
+                            alert("请确认输入的密码是否一致！");
+                            return;
+                        }
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(_val2)){
+                            alert("请检查您输入的密码格式");
+                            pwd1.value="";
+                            return;}
+                        alert("唐狮欢迎您！！！");
+
+
+
+
+
+                    }
+                })
+            });
+            $("#close").click(function () {
+                $("#hidden").css("display","none");
+            });
+            $.post("json.json",null,function (data,textStatus) {
+                if(textStatus=="success"){
+                    var _img="";
+                    var _detail="";
+                    var _now="";
+                    var _old="";
+                    var _pic="";
+                    for(var k in data["h5"]["1"]["group"]){
+                        _img+="<img src=\""+data["h5"]["1"]["group"][k]+"\" alt=\"groupImg\">";
+                        _detail=data["h5"]["1"]["detail"];
+                        _now=data["h5"]["1"]["now"];
+                        _old=data["h5"]["1"]["old"];
+                        }
+                    for(var j in data["h5"]["1"]["img"]){
+                        _pic+="<img src=\""+data["h5"]["1"]["img"][j]+"\" alt=\"\detailImg\">";
+                    }
+                    $(".group").html(_img);
+                    $(".now").html(_now);
+                    $(".old").html(_old);
+                    $(".title").html(_detail);
+                    $(".Img").html(_pic);
+                    };
+                function Zoom() {
+                    this._imgs=document.getElementById("group").children;
+                    this._small=document.getElementById("small");
+                    this._big=document.getElementById("big");
+                    this._box=document.getElementById("box");
+                    var _self=this;
+                    this.setSpanCSS=function (e) {
+                        this._small.children[1].style.display="block";
+                        e=e||window.event;
+                        var _top=document.documentElement.scrollTop||document.body.offsetTop;
+                        var _left=document.documentElement.scrollLeft||document.body.scrollLeft;
+                        if(e.clientX-_left>=290 && e.clientX-_left<=570){
+                        this._small.children[1].style.left=e.clientX-240+_left-this._small.offsetLeft-this._small.children[1].offsetWidth/2+"px";
+                        }
+
+                        if(e.clientY-_top>=170&&e.clientY-_top<=450){
+                        this._small.children[1].style.top=e.clientY-120+_top-this._small.offsetTop-this._small.children[1].offsetHeight/2+"px";
+                       }
+                        return [this._small.children[1].offsetLeft,this._small.children[1].offsetTop];
+                    }
+                    this.showBig=function (_pos) {
+                        _self._big.style.display="block";
+                        _self._box.children[0].style.left = -_pos[0]*4+"px";
+                        _self._box.children[0].style.top = -_pos[1]*4+"px";
+
+                    }
+                    this.eventHandle=function (){
+                        for(var i=0;i<this._imgs.length;i++){
+                            this._imgs[i].onmouseover=function () {
+                                _self._small.children[0].src=this.src;
+                                _self._big.children[0].children[0].src=this.src;
+                            }
+                        }
+                        this._small.onmousemove=function (e){
+                            e=e||window.event;
+                            var _pos=_self.setSpanCSS(e);
+                            _self.showBig(_pos);
+
+                        }
+                        this._small.onmouseout=function () {
+                            _self._small.children[1].style.display="none";
+                            _self._big.style.display="none";
+                        }
+                    }
+                }
+                var _zoom=new Zoom();
+                _zoom.eventHandle();
+                });
+            var number=1;
+            $(".sub").click(function (){
+                number--;
+                if(number>=0){
+                    $(".num").val(number);
+                }
+                else{
+                    alert("这么优惠，还不带一件？")
+                }
+
+            });
+            $(".add").click(function (){
+                number++;
+                if(number<=10){
+                    $(".num").val(number);
+                }
+                else {
+                    alert("不好意思，衣服太火，库存不够了！！！")
+                }
+            });
+            $(".goodDet").click(function () {
+                $("det").css("display","block");
+
+            });
+            $(".goodCom").click(function () {
+                $("comment").css("display","block");
+            });
+
+            $("#discover").mouseenter(function () {
+                $("#code").css("display", "block");
+            });
+            $("#discover").mouseleave(function () {
+                $("#code").css("display", "none");
+            });
+            $("#backTop").click(function () {
+                $(window).scrollHeight = 0;
+            });
+            $("footer").load("foot.html");
+            document.onselectstart=function (){return false;};
+
+        })
+    </script>
+</head>
+<body>
+<header>
+
+</header>
+<div id="content" class="wrap">
+    <div class="pos">
+        <span>当前位置: <a href="###">首页</a>&gt;<a href="###">甜美女装</a>&gt;<a href="###">长袖衬衫</a>&gt; 唐狮2017春（TonLion）情侣款女撞色拱针趣味绣花标长袖衬衫</span>
+    </div>
+    <div class="hot">
+        <h3>浏览记录</h3>
+        <div class="history"></div>
+    </div>
+    <div id="good">
+        <div class="zoom" id="zoom">
+            <div class="small" id="small">
+                <img src="img/imgT/t1.jpg" alt="">
+                <span></span>
+            </div>
+            <div class="group" id="group">
+                <img src="" alt="">
+                <img src="" alt="">
+                <img src="" alt="">
+            </div>
+            <div class="big" id="big">
+                <div class="box" id="box">
+                    <img src="" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="detail">
+            <h6 class="title"></h6>
+            <div class="money">
+                <span>市场价格<b class="old"></b></span>
+                <span>销售价￥<b class="now"></b></span>
+                <span>全场包邮</span>
+            </div>
+            <p>数量<span class="sub">-</span><input class="num" type="text" value="1"><span class="add">+</span></p>
+        </div>
+        <ul class="buy">
+            <li class="shCar"><a href="###">添加到购物车</a></li>
+            <li class="collect"><a href="###">收藏商品</a></li>
+        </ul>
+        <div class="chat">
+            <h3>
+                <a class="goodDet" href="###">商品详情</a>
+                <a class="goodCom" href="###">商品评论</a>
+            </h3>
+        </div>
+        <div class="box">
+            <div class="Img det"></div>
+            <div class="comment"></div>
+        </div>
+
+    </div>
+
+</div>
+<footer class="wrap">
+
+</footer>
+<div class="fix">
+    <a href="###"><i class="iconfont icon-liaotian"></i><span>客服</span></a>
+    <a href="###"  id="discover">
+        <i class="iconfont icon-weixin"></i>
+        <span>添加微信</span>
+        <img id="code" src="img/pic_1 (44).jpg" alt="微信">
+    </a>
+    <a id="backTop" href="#"><i class="iconfont icon-huidaodingbu"></i><span>回到顶部</span></a>
+</div>
+<div id="hidden">
+
+    <div class="hideBg"></div>
+
+    <div class="hide">
+        <div id="titBox" style="width: 100%;height: 30px">
+            <span id="close">X</span>
+            <h3 class="tit" id="tit1"><i class="iconfont icon-yonghu"></i>用户登录</h3>
+            <h3 id="tit2"><i class="iconfont icon-lijizhuce"></i>用户注册</h3>
+        </div>
+
+        <div id="hideBox">
+            <div id="login" class="div1">
+                <p>账户名：<input type="text" id="text1" class="text"></p>
+                <p class="second">密码：<input type="password" id="pwd1"class="text" ></p>
+                <p><input type="checkbox"  id="radio"><span>七天免登陆</span></p>
+                <p><button id="btn1">登录</button><a href="###">忘记密码？</a></p>
+            </div>
+            <div id="rejister">
+                <p>账户名：<input type="text" id="text2"  class="text"></p>
+                <p class="pw2">设置密码：<input type="password" id="pwd2"  class="text"></p>
+                <p class="pwd3">确认密码：<input type="password" id="pwd3" class="text"></p>
+                <p><button id="btn2">注册</button></p>
+                <p><input type="checkbox" ><span>我已接受用户协议</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TanLion.index</title>
+    <link rel="stylesheet" href="css/public.css" type="text/css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+        $(function(){
+
+            $("header").load("head.html",function(){
+                function Hover(){
+                    var _det=document.getElementById("det");
+                    var _clasify=document.getElementById("clasify")
+                    var _li=_det.getElementsByTagName("li");
+                    this.move=function () {
+                        for(var i=1;i<6;i++){
+                          _li[i].onmousemove=function () {
+                              this.style.backgroundColor="#444"
+                          }
+                            _li[i].onmouseout=function () {
+                               this.style.backgroundColor=""
+                            }
+
+                        }
+                        _li[0].onmousemove=function () {
+                            _clasify.style.display="block";
+                            _clasify.style.zIndex="100"
+                        }
+                        _li[0].onmouseout=function () {
+                            _clasify.style.display="none";
+                        }
+                };
+
+
+            }
+                var hover=new Hover();
+                hover.move();
+                $(window).scroll(function () {
+                    var _top = $(window).scrollTop();
+                    if (_top > 135) {
+                        $("nav").addClass("nav");
+                    }
+                    else {
+                        $("nav").removeClass("nav");
+                    }
+                    if(_top>500){
+                        $(".fix").css("display","block")
+                    }
+                    else {
+                        $(".fix").css("display","none")
+                    }
+                });
+                $("#login").click(function () {
+                    $("#hidden").css("display", "block");
+                    var _titBox=document.getElementById("titBox");
+                    var _tit=_titBox.getElementsByTagName("h3");
+                    var _hideBox=document.getElementById("hideBox");
+                    var _hide=_hideBox.getElementsByTagName("div");
+                    var txt1=document.getElementById("text1");
+                    var txt2=document.getElementById("text2");
+                    var oChex=document.getElementById("radio");
+                    var pw1=document.getElementById("pwd1");
+                    var pw2=document.getElementById("pwd2");
+                    var pw3=document.getElementById("pwd2");
+                    var btn1=document.getElementById("btn1");
+                    var btn2=document.getElementById("btn2");
+                    for(var i=0;i<2;i++){
+                        _tit[i].index=i;
+                        _tit[i].onclick=function () {
+                            for(var k=0;k<2;k++){
+                                _tit[k].className="";
+                                _hide[k].className="";
+                            };
+                            _tit[this.index].className="tit";
+                            _hide[this.index].className="div1";
+                        };
+
+                    };
+                    btn1.onclick=function () {
+//                        var _val1=;
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(txt1.value)){
+                            alert("请检查您输入的账号")
+                            txt1.value="";
+                            return;
+                        };
+
+                        var _val2=pwd1.value;
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(_val2)){
+                            alert("请检查您输入的密码")
+                            pwd1.value="";
+                            return};
+                        alert("欢迎登录唐狮");
+
+                        if(document.getElementById("radio").checked)
+                        {
+                            document.cookie="user="+txt1.value+";expires="+new Date(new Date().getTime()+7*24*3600000);
+                            document.cookie="pwd="+pw1.value+";expires="+new Date(new Date().getTime()+7*24*3600000);
+                        }
+
+
+                    }
+                    btn2.onclick=function () {
+                        var _val1=txt2.value;
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(_val1)){
+                            alert("请检查您输入的账号");
+                            txt1.value="";
+                            return ;
+                        }
+
+                        var _val2=pwd2.value;
+                        var _val3=pwd3.value;
+                        if(_val2!==_val3){
+                            alert("请确认输入的密码是否一致！");
+                            return;
+                        }
+                        if(!/^[a-zA-Z0-9].{6,16}$/ig.test(_val2)){
+                            alert("请检查您输入的密码格式");
+                            pwd1.value="";
+                            return;}
+                        alert("唐狮欢迎您！！！");
+
+
+
+
+
+                    }
+                })
+
+            })
+             var con=function(){
+                var _img="";
+                for (var i=11;i<23;i++){
+                    _img+="<img src=\"img/pic_1 ("+i+").jpg\">"
+                }
+                document.getElementById("con10").innerHTML=_img ;
+            } ;
+             con();
+            $("#close").click(function () {
+                $("#hidden").css("display","none");
+            });
+            $.post("json.json",function (data) {
+               console.log(data);
+                var _dl1="";
+                var _dl2="";
+                console.log(data);
+                for(var k in data["h1"] ){
+                    _dl1+="<dl><dt><a href=\"###\"><img src=\""+data["h1"][k]["img"]+"\"/></a></dt><dd><a href=\"###\">"+data["h1"][k]["detail"]+"</a></dd><dd>"+data["h1"][k]["price"]+"<span>"+data["h1"][k]["old"]+"</span></dd></dl>";
+
+                };
+               document.getElementById("con10").innerHTML=_dl1;
+                for(var j in data["h2"] ){
+                    _dl2+="<dl><dt><a href=\"###\"><img src=\""+data["h2"][j]["img"]+"\"/></a></dt><dd><a href=\"###\">"+data["h2"][j]["detail"]+"</a></dd><dd>"+data["h2"][j]["price"]+"<span>"+data["h2"][j]["old"]+"</span></dd></dl>";
+                }
+               document.getElementById("con11").innerHTML=_dl2;
+               });
+
+            $("#discover").mouseenter(function () {
+                $("#code").css("display", "block");
+            });
+            $("#discover").mouseleave(function () {
+                $("#code").css("display", "none");
+            });
+            $("#backTop").click(function () {
+                $(window).scrollHeight = 0;
+            });
+            $("footer").load("foot.html");
+            document.onselectstart=function (){return false;};
+
+        })
+    </script>
+
+</head>
+<body>
+
+<header>
+
+</header>
+<div id="content">
+    <div class="con1">
+        <div class="wrap">
+            <img src="img/pic_1%20(2).jpg" alt="">
+            <a class="con-a1" href="###"></a>
+            <a class="con-a2" href="###"></a>
+        </div>
+    </div>
+    <div class="con2">
+        <div class="wrap">
+            <img src="img/pic_1%20(3).jpg" alt="">
+            <a class="con2-a1" href="###"></a>
+            <a class="con2-a2" href="###"></a>
+            <a class="con2-a3" href="###"></a>
+        </div>
+    </div>
+    <div class="con3">
+        <div class="wrap">
+            <img src="img/pic_1%20(5).jpg" alt="">
+            <a class="con3-a1" href="###"></a>
+            <a class="con3-a2" href="###"></a>
+            <a class="con3-a3" href="###"></a>
+        </div>
+    </div>
+    <div class="con4 wrap">
+        <img src="img/pic_1%20(6).jpg" alt="">
+        <a class="con6-a1" href="###"></a>
+        <a class="con6-a2" href="###"></a>
+        <a class="con6-a3" href="###"></a>
+        <a class="con6-a4" href="###"></a>
+        <a class="con6-a5" href="###"></a>
+        <a class="con6-a6" href="###"></a>
+    </div>
+    <div class="con5 wrap">
+        <img src="img/pic_1%20(7).jpg" alt="">
+        <a class="con5-a1" href="###"></a>
+        <a class="con5-a2" href="###"></a>
+        <a class="con5-a3" href="###"></a>
+        <a class="con5-a4" href="###"></a>
+        <a class="con5-a5" href="###"></a>
+        <a class="con5-a6" href="###"></a>
+        <a class="con5-a7" href="###"></a>
+        <a class="con5-a8" href="###"></a>
+
+    </div>
+    <div class="con6 wrap">
+        <img src="img/pic_1%20(4).jpg" alt="">
+        <a class="con6-a1" href="###"></a>
+        <a class="con6-a2" href="###"></a>
+        <a class="con6-a3" href="###"></a>
+        <a class="con6-a4" href="###"></a>
+        <a class="con6-a5" href="###"></a>
+        <a class="con6-a6" href="###"></a>
+        <a class="con6-a7" href="###"></a>
+        <a class="con6-a8" href="###"></a>
+
+    </div>
+    <div class="con7 wrap">
+        <img src="img/pic_1%20(8).jpg" alt="">
+        <a class="con7-a1" href="###"></a>
+        <a class="con7-a2" href="###"></a>
+        <a class="con7-a3" href="###"></a>
+        <a class="con7-a4" href="###"></a>
+        <a class="con7-a5" href="###"></a>
+        <a class="con7-a6" href="###"></a>
+        <a class="con7-a7" href="###"></a>
+        <a class="con7-a8" href="###"></a>
+
+    </div>
+    <div class="con8 wrap">
+        <img src="img/pic_1%20(9).jpg" alt="">
+        <a href="###" class="con8-a1"></a>
+        <a href="###" class="con8-a2"></a>
+    </div>
+    <div class="con9 wrap">
+        <img src="img/pic_1%20(10).jpg " alt="">
+        <a href="###" class="con9-a1"></a>
+        <a href="###" class="con9-a2"></a>
+        <a href="###" class="con9-a3"></a>
+        <a href="###" class="con9-a4"></a>
+        <a href="###" class="con9-a5"></a>
+        <a href="###" class="con9-a6"></a>
+    </div>
+    <div class="con10 wrap" id="con10">
+        <dl>
+
+        </dl>
+    </div>
+    <div class="con11 wrap">
+        <img src="img/pic_1%20(23).jpg" alt="">
+        <img src="img/pic_1%20(24).jpg" alt="">
+        <img src="img/pic_1%20(25).jpg" alt="">
+        <img src="img/pic_1%20(26).jpg" alt="">
+        <img src="img/pic_1%20(27).jpg" alt="">
+    </div>
+    <div class="con11 wrap" id="con11">
+
+    </div>
+</div>
+
+<footer class="wrap">
+
+</footer>
+<div class="fix">
+    <a href="###"><i class="iconfont icon-liaotian"></i><span>客服</span></a>
+    <a href="###"  id="discover">
+        <i class="iconfont icon-weixin"></i>
+        <span>添加微信</span>
+        <img id="code" src="img/pic_1 (44).jpg" alt="微信">
+    </a>
+    <a id="backTop" href="#"><i class="iconfont icon-huidaodingbu"></i><span>回到顶部</span></a>
+</div>
+<div id="hidden">
+
+    <div class="hideBg"></div>
+
+    <div class="hide">
+        <div id="titBox" style="width: 100%;height: 30px">
+            <span id="close">X</span>
+            <h3 class="tit" id="tit1"><i class="iconfont icon-yonghu"></i>用户登录</h3>
+            <h3 id="tit2"><i class="iconfont icon-lijizhuce"></i>用户注册</h3>
+        </div>
+
+        <div id="hideBox">
+            <div id="login" class="div1">
+                <p>账户名：<input type="text" id="text1" class="text"></p>
+                <p class="second">密码：<input type="password" id="pwd1"class="text" ></p>
+                <p><input type="checkbox"  id="radio"><span>七天免登陆</span></p>
+                <p><button id="btn1">登录</button><a href="###">忘记密码？</a></p>
+            </div>
+            <div id="rejister">
+                <p>账户名：<input type="text" id="text2"  class="text"></p>
+                <p class="pw2">设置密码：<input type="password" id="pwd2"  class="text"></p>
+                <p class="pwd3">确认密码：<input type="password" id="pwd3" class="text"></p>
+                <p><button id="btn2">注册</button></p>
+                <p><input type="checkbox" ><span>我已接受用户协议</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
